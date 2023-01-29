@@ -1,11 +1,13 @@
 lockfileVersion: 5.4
 
 specifiers:
+  changesets: ^1.0.2
   tsup: ^6.5.0
   typescript: ^4.9.4
   vitest: ^0.28.3
 
 devDependencies:
+  changesets: 1.0.2
   tsup: 6.5.0_typescript@4.9.4
   typescript: 4.9.4
   vitest: 0.28.3
@@ -400,6 +402,10 @@ packages:
       loupe: 2.3.6
       pathval: 1.1.1
       type-detect: 4.0.8
+    dev: true
+
+  /changesets/1.0.2:
+    resolution: {integrity: sha512-lnXvvqJEcK0z/6RtwKNLbejazl+Hxd1bocMcNgfLHWb4rGxuqkO/LdeGNzwIx3jHj+fNWZ6AGgK5AqNBwva4Xg==}
     dev: true
 
   /check-error/1.0.2:

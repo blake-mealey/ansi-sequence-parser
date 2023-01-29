@@ -1,6 +1,6 @@
 {
-  "name": "ansi-sequencer",
-  "version": "0.0.1",
+  "name": "ansi-sequence-parser",
+  "version": "1.0.0",
   "scripts": {
     "test": "vitest"
   },
@@ -12,6 +12,7 @@
   "author": "blake-mealey",
   "license": "MIT",
   "devDependencies": {
+    "changesets": "^1.0.2",
     "tsup": "^6.5.0",
     "typescript": "^4.9.4",
     "vitest": "^0.28.3"

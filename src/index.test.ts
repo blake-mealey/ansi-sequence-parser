@@ -1,5 +1,6 @@
 import { test, expect } from 'vitest';
 import { createAnsiSequenceParser, parseAnsiSequences } from '.';
+import { createColorPalette } from './palette';
 
 test('parses full value', () => {
   const tokens = parseAnsiSequences(`[0m [0;32m✓[0m [0;2msrc/[0mindex[0;2m.test.ts (1)[0m
@@ -243,7 +244,7 @@ test('parses full value', () => {
   `);
 });
 
-test('parses value by line', () => {
+test('parser maintains state across calls', () => {
   const value = `[0;32msome green text
 which wraps to the next line[0m
 then clears after that`;
@@ -251,9 +252,9 @@ then clears after that`;
   const lines = value.split(/\r?\n/);
   const parser = createAnsiSequenceParser();
 
-  const tokens = lines.map((line) => parser.parse(line));
+  const tokensByLine = lines.map((line) => parser.parse(line));
 
-  expect(tokens).toMatchInlineSnapshot(`
+  expect(tokensByLine).toMatchInlineSnapshot(`
     [
       [
         {
@@ -290,57 +291,478 @@ then clears after that`;
 });
 
 test('colors', () => {
-  const value = `[0;32mGreen[0;90mBright Black[0;38;2;31;222;162mPastel Green[0;38;5;87mTable Cyan`;
+  const value = `[0;30mBlack[0;37mWhite[0;90mBright Black[0;97mBright White[0;32mGreen[0;38;2;31;222;162mPastel Green[0;38;5;87mTable Cyan
+[0;40mBlack[0;47mWhite[0;100mBright Black[0;107mBright White[0;42mGreen[0;48;2;31;222;162mPastel Green[0;48;5;87mTable Cyan
+[0;107;30mForeground and background[39mReset foreground[35;49mReset background`;
 
-  const lines = value.split(/\r?\n/);
-  const parser = createAnsiSequenceParser();
+  const tokens = parseAnsiSequences(value);
 
-  const tokens = lines.map((line) => parser.parse(line));
+  const colorPalette = createColorPalette({
+    black: '#000000',
+    red: '#bb0000',
+    green: '#00bb00',
+    yellow: '#bbbb00',
+    blue: '#0000bb',
+    magenta: '#ff00ff',
+    cyan: '#00bbbb',
+    white: '#eeeeee',
+    brightBlack: '#555555',
+    brightRed: '#ff5555',
+    brightGreen: '#00ff00',
+    brightYellow: '#ffff55',
+    brightBlue: '#5555ff',
+    brightMagenta: '#ff55ff',
+    brightCyan: '#55ffff',
+    brightWhite: '#ffffff',
+  });
+
+  const tokensWithColorValue = tokens.map((token) => ({
+    ...token,
+    foregroundValue: token.foreground
+      ? colorPalette.value(token.foreground)
+      : null,
+    backgroundValue: token.background
+      ? colorPalette.value(token.background)
+      : null,
+  }));
+
+  expect(tokensWithColorValue).toMatchInlineSnapshot(`
+    [
+      {
+        "background": null,
+        "backgroundValue": null,
+        "decorations": Set {},
+        "foreground": {
+          "name": "black",
+          "type": "named",
+        },
+        "foregroundValue": "#000000",
+        "value": "Black",
+      },
+      {
+        "background": null,
+        "backgroundValue": null,
+        "decorations": Set {},
+        "foreground": {
+          "name": "white",
+          "type": "named",
+        },
+        "foregroundValue": "#eeeeee",
+        "value": "White",
+      },
+      {
+        "background": null,
+        "backgroundValue": null,
+        "decorations": Set {},
+        "foreground": {
+          "name": "brightBlack",
+          "type": "named",
+        },
+        "foregroundValue": "#555555",
+        "value": "Bright Black",
+      },
+      {
+        "background": null,
+        "backgroundValue": null,
+        "decorations": Set {},
+        "foreground": {
+          "name": "brightWhite",
+          "type": "named",
+        },
+        "foregroundValue": "#ffffff",
+        "value": "Bright White",
+      },
+      {
+        "background": null,
+        "backgroundValue": null,
+        "decorations": Set {},
+        "foreground": {
+          "name": "green",
+          "type": "named",
+        },
+        "foregroundValue": "#00bb00",
+        "value": "Green",
+      },
+      {
+        "background": null,
+        "backgroundValue": null,
+        "decorations": Set {},
+        "foreground": {
+          "rgb": [
+            31,
+            222,
+            162,
+          ],
+          "type": "rgb",
+        },
+        "foregroundValue": "#1fdea2",
+        "value": "Pastel Green",
+      },
+      {
+        "background": null,
+        "backgroundValue": null,
+        "decorations": Set {},
+        "foreground": {
+          "index": 87,
+          "type": "table",
+        },
+        "foregroundValue": "#5fffff",
+        "value": "Table Cyan
+    ",
+      },
+      {
+        "background": {
+          "name": "black",
+          "type": "named",
+        },
+        "backgroundValue": "#000000",
+        "decorations": Set {},
+        "foreground": null,
+        "foregroundValue": null,
+        "value": "Black",
+      },
+      {
+        "background": {
+          "name": "white",
+          "type": "named",
+        },
+        "backgroundValue": "#eeeeee",
+        "decorations": Set {},
+        "foreground": null,
+        "foregroundValue": null,
+        "value": "White",
+      },
+      {
+        "background": {
+          "name": "brightBlack",
+          "type": "named",
+        },
+        "backgroundValue": "#555555",
+        "decorations": Set {},
+        "foreground": null,
+        "foregroundValue": null,
+        "value": "Bright Black",
+      },
+      {
+        "background": {
+          "name": "brightWhite",
+          "type": "named",
+        },
+        "backgroundValue": "#ffffff",
+        "decorations": Set {},
+        "foreground": null,
+        "foregroundValue": null,
+        "value": "Bright White",
+      },
+      {
+        "background": {
+          "name": "green",
+          "type": "named",
+        },
+        "backgroundValue": "#00bb00",
+        "decorations": Set {},
+        "foreground": null,
+        "foregroundValue": null,
+        "value": "Green",
+      },
+      {
+        "background": {
+          "rgb": [
+            31,
+            222,
+            162,
+          ],
+          "type": "rgb",
+        },
+        "backgroundValue": "#1fdea2",
+        "decorations": Set {},
+        "foreground": null,
+        "foregroundValue": null,
+        "value": "Pastel Green",
+      },
+      {
+        "background": {
+          "index": 87,
+          "type": "table",
+        },
+        "backgroundValue": "#5fffff",
+        "decorations": Set {},
+        "foreground": null,
+        "foregroundValue": null,
+        "value": "Table Cyan
+    ",
+      },
+      {
+        "background": {
+          "name": "brightWhite",
+          "type": "named",
+        },
+        "backgroundValue": "#ffffff",
+        "decorations": Set {},
+        "foreground": {
+          "name": "black",
+          "type": "named",
+        },
+        "foregroundValue": "#000000",
+        "value": "Foreground and background",
+      },
+      {
+        "background": {
+          "name": "brightWhite",
+          "type": "named",
+        },
+        "backgroundValue": "#ffffff",
+        "decorations": Set {},
+        "foreground": null,
+        "foregroundValue": null,
+        "value": "Reset foreground",
+      },
+      {
+        "background": null,
+        "backgroundValue": null,
+        "decorations": Set {},
+        "foreground": {
+          "name": "magenta",
+          "type": "named",
+        },
+        "foregroundValue": "#ff00ff",
+        "value": "Reset background",
+      },
+    ]
+  `);
+});
+
+test('decorations', () => {
+  const value = `[0;1mBold[0;2mDim[0;3mItalic[0;4mUnderline[0;7mReverse[0;9mStrikethrough
+[0;1;2;3;4;7;9mAll
+[0;1mStack 1[2mStack 2[3mStack 3[4mStack 4[7mStack 5[9mStack 6
+[0;1;3mBold on[21mBold off[7mReverse on[27mReverse off`;
+
+  const tokens = parseAnsiSequences(value);
 
   expect(tokens).toMatchInlineSnapshot(`
     [
-      [
-        {
-          "background": null,
-          "decorations": Set {},
-          "foreground": {
-            "name": "green",
-            "type": "named",
-          },
-          "value": "Green",
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
         },
-        {
-          "background": null,
-          "decorations": Set {},
-          "foreground": {
-            "name": "brightBlack",
-            "type": "named",
-          },
-          "value": "Bright Black",
+        "foreground": null,
+        "value": "Bold",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "dim",
         },
-        {
-          "background": null,
-          "decorations": Set {},
-          "foreground": {
-            "rgb": [
-              31,
-              222,
-              162,
-            ],
-            "type": "rgb",
-          },
-          "value": "Pastel Green",
+        "foreground": null,
+        "value": "Dim",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "italic",
         },
-        {
-          "background": null,
-          "decorations": Set {},
-          "foreground": {
-            "index": 87,
-            "type": "table",
-          },
-          "value": "Table Cyan",
+        "foreground": null,
+        "value": "Italic",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "underline",
         },
-      ],
+        "foreground": null,
+        "value": "Underline",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "reverse",
+        },
+        "foreground": null,
+        "value": "Reverse",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "strikethrough",
+        },
+        "foreground": null,
+        "value": "Strikethrough
+    ",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
+          "dim",
+          "italic",
+          "underline",
+          "reverse",
+          "strikethrough",
+        },
+        "foreground": null,
+        "value": "All
+    ",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
+        },
+        "foreground": null,
+        "value": "Stack 1",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
+          "dim",
+        },
+        "foreground": null,
+        "value": "Stack 2",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
+          "dim",
+          "italic",
+        },
+        "foreground": null,
+        "value": "Stack 3",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
+          "dim",
+          "italic",
+          "underline",
+        },
+        "foreground": null,
+        "value": "Stack 4",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
+          "dim",
+          "italic",
+          "underline",
+          "reverse",
+        },
+        "foreground": null,
+        "value": "Stack 5",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
+          "dim",
+          "italic",
+          "underline",
+          "reverse",
+          "strikethrough",
+        },
+        "foreground": null,
+        "value": "Stack 6
+    ",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "bold",
+          "italic",
+        },
+        "foreground": null,
+        "value": "Bold on",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "italic",
+        },
+        "foreground": null,
+        "value": "Bold off",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "italic",
+          "reverse",
+        },
+        "foreground": null,
+        "value": "Reverse on",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "italic",
+        },
+        "foreground": null,
+        "value": "Reverse off",
+      },
+    ]
+  `);
+});
+
+test('edge cases', () => {
+  const value = `[0m[1m[32m[43mStacked commands
+[42;0mReset at end of sequence
+[0;38mMissing color mode argument
+[0;38;2;31;222mMissing color argument
+[0;38;5mMissing color argument`;
+
+  const tokens = parseAnsiSequences(value);
+
+  expect(tokens).toMatchInlineSnapshot(`
+    [
+      {
+        "background": {
+          "name": "yellow",
+          "type": "named",
+        },
+        "decorations": Set {
+          "bold",
+        },
+        "foreground": {
+          "name": "green",
+          "type": "named",
+        },
+        "value": "Stacked commands
+    ",
+      },
+      {
+        "background": {
+          "name": "green",
+          "type": "named",
+        },
+        "decorations": Set {},
+        "foreground": null,
+        "value": "Reset at end of sequence
+    ",
+      },
+      {
+        "background": null,
+        "decorations": Set {},
+        "foreground": null,
+        "value": "Missing color mode argument
+    ",
+      },
+      {
+        "background": null,
+        "decorations": Set {},
+        "foreground": null,
+        "value": "Missing color argument
+    ",
+      },
+      {
+        "background": null,
+        "decorations": Set {},
+        "foreground": null,
+        "value": "Missing color argument",
+      },
     ]
   `);
 });
