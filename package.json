@@ -1,7 +1,7 @@
 {
   "name": "ansi-sequence-parser",
   "description": "A parser for ANSI escape sequences",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -18,7 +18,8 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "test": "vitest"
+    "test": "vitest",
+    "changeset": "changeset"
   },
   "keywords": [
     "ansi",
@@ -28,7 +29,7 @@
   "author": "blake-mealey",
   "license": "MIT",
   "devDependencies": {
-    "changesets": "^1.0.2",
+    "@changesets/cli": "^2.26.0",
     "tsup": "^6.5.0",
     "typescript": "^4.9.4",
     "vitest": "^0.28.3"
