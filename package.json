@@ -1,7 +1,23 @@
 {
   "name": "ansi-sequence-parser",
+  "description": "A parser for ANSI escape sequences",
   "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "README.md"
+  ],
   "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "test": "vitest"
   },
   "keywords": [

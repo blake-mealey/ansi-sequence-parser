@@ -24,7 +24,6 @@ export interface NamedColor {
   name: ColorName;
 }
 
-// TODO: provide helper function to convert to RGB
 export interface TableColor {
   type: 'table';
   index: number;

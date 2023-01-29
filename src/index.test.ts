@@ -1,6 +1,9 @@
 import { test, expect } from 'vitest';
-import { createAnsiSequenceParser, parseAnsiSequences } from '.';
-import { createColorPalette } from './palette';
+import {
+  createAnsiSequenceParser,
+  parseAnsiSequences,
+  createColorPalette,
+} from '.';
 
 test('parses full value', () => {
   const tokens = parseAnsiSequences(`[0m [0;32m✓[0m [0;2msrc/[0mindex[0;2m.test.ts (1)[0m
@@ -297,24 +300,7 @@ test('colors', () => {
 
   const tokens = parseAnsiSequences(value);
 
-  const colorPalette = createColorPalette({
-    black: '#000000',
-    red: '#bb0000',
-    green: '#00bb00',
-    yellow: '#bbbb00',
-    blue: '#0000bb',
-    magenta: '#ff00ff',
-    cyan: '#00bbbb',
-    white: '#eeeeee',
-    brightBlack: '#555555',
-    brightRed: '#ff5555',
-    brightGreen: '#00ff00',
-    brightYellow: '#ffff55',
-    brightBlue: '#5555ff',
-    brightMagenta: '#ff55ff',
-    brightCyan: '#55ffff',
-    brightWhite: '#ffffff',
-  });
+  const colorPalette = createColorPalette();
 
   const tokensWithColorValue = tokens.map((token) => ({
     ...token,

@@ -1,6 +1,27 @@
 import { Color, ColorName, namedColors } from './colors';
 
-export function createColorPalette(namedColorsMap: Record<ColorName, string>) {
+export const defaultNamedColorsMap = {
+  black: '#000000',
+  red: '#bb0000',
+  green: '#00bb00',
+  yellow: '#bbbb00',
+  blue: '#0000bb',
+  magenta: '#ff00ff',
+  cyan: '#00bbbb',
+  white: '#eeeeee',
+  brightBlack: '#555555',
+  brightRed: '#ff5555',
+  brightGreen: '#00ff00',
+  brightYellow: '#ffff55',
+  brightBlue: '#5555ff',
+  brightMagenta: '#ff55ff',
+  brightCyan: '#55ffff',
+  brightWhite: '#ffffff',
+} as const satisfies Record<ColorName, string>;
+
+export function createColorPalette(
+  namedColorsMap: Record<ColorName, string> = defaultNamedColorsMap
+) {
   function namedColor(name: ColorName) {
     return namedColorsMap[name];
   }
