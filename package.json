@@ -1,6 +1,11 @@
 {
   "name": "ansi-sequence-parser",
   "description": "A parser for ANSI escape sequences",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blake-mealey/ansi-sequence-parser.git"
+  },
+  "homepage": "https://github.com/blake-mealey/ansi-sequence-parser#readme",
   "version": "1.0.0",
   "type": "module",
   "main": "./dist/index.js",
