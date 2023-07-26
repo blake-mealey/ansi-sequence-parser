@@ -752,3 +752,25 @@ test('edge cases', () => {
     ]
   `);
 });
+
+test('unclosed sequences', () => {
+  const tokens = parseAnsiSequences(`28s[4B[46D[0m[?2004h`);
+  expect(tokens).toMatchInlineSnapshot(`
+    [
+      {
+        "background": null,
+        "decorations": Set {},
+        "foreground": null,
+        "value": "28s",
+      },
+      {
+        "background": null,
+        "decorations": Set {
+          "underline",
+        },
+        "foreground": null,
+        "value": "[?2004h",
+      },
+    ]
+  `);
+});

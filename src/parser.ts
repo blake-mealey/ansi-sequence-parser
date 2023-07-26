@@ -14,11 +14,13 @@ function findSequence(value: string, position: number) {
   if (nextEscape !== -1) {
     if (value[nextEscape + 1] === '[') {
       const nextClose = value.indexOf('m', nextEscape);
-      return {
-        sequence: value.substring(nextEscape + 2, nextClose).split(';'),
-        startPosition: nextEscape,
-        position: nextClose + 1,
-      };
+      if (nextClose !== -1) {
+        return {
+          sequence: value.substring(nextEscape + 2, nextClose).split(';'),
+          startPosition: nextEscape,
+          position: nextClose + 1,
+        };
+      }
     }
   }
   return {
