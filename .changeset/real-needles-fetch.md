@@ -1,5 +1,5 @@
 ---
-"ansi-sequence-parser": patch
+'ansi-sequence-parser': patch
 ---
 
-fix infinite loop when parsing an unclosed sequence
+fix: don't infinite loop when parsing an unclosed sequence
