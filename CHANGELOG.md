@@ -1,5 +1,11 @@
 # ansi-sequence-parser
 
+## 1.1.2
+
+### Patch Changes
+
+- f88617a: include intended fix from 1.1.1 (the fix was not actually included in the previous release)
+
 ## 1.1.1
 
 ### Patch Changes
