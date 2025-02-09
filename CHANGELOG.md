@@ -1,5 +1,12 @@
 # ansi-sequence-parser
 
+## 1.1.3
+
+### Patch Changes
+
+- e4b8472: - Fixes escape code 22 not resetting `bold` decorations
+  - Adds support for `overline` and `hidden` decorations
+
 ## 1.1.2
 
 ### Patch Changes
