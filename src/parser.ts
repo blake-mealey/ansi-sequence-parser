@@ -81,6 +81,13 @@ function parseSequence(sequence: string[]) {
           type: 'resetDecoration',
           value: decoration,
         });
+        // dim is a special case which should clear both dim and bold
+        if (decoration === 'dim') {
+          commands.push({
+            type: 'resetDecoration',
+            value: 'bold',
+          });
+        }
       }
     } else if (codeInt <= 37) {
       commands.push({
@@ -115,6 +122,16 @@ function parseSequence(sequence: string[]) {
     } else if (codeInt === 49) {
       commands.push({
         type: 'resetBackgroundColor',
+      });
+    } else if (codeInt === 53) {
+      commands.push({
+        type: 'setDecoration',
+        value: 'overline',
+      });
+    } else if (codeInt === 55) {
+      commands.push({
+        type: 'resetDecoration',
+        value: 'overline',
       });
     } else if (codeInt >= 90 && codeInt <= 97) {
       commands.push({

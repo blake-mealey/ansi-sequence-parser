@@ -4,7 +4,10 @@ export const decorations = {
   3: 'italic',
   4: 'underline',
   7: 'reverse',
+  8: 'hidden',
   9: 'strikethrough',
 } as const;
 
-export type DecorationType = typeof decorations[keyof typeof decorations];
+export type DecorationType =
+  | (typeof decorations)[keyof typeof decorations]
+  | 'overline';
