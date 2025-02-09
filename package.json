@@ -24,7 +24,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "prepublish": "pnpm build",
-    "test": "vitest",
+    "test": "FORCE_COLOR=true vitest",
     "changeset": "changeset"
   },
   "keywords": [
