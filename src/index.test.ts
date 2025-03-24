@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest';
+import { test, expect } from "vitest";
 import {
   createAnsiSequenceParser,
   parseAnsiSequences,
@@ -22,6 +22,7 @@ test('parses full value', () => {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 4,
         "value": " ",
       },
       {
@@ -31,12 +32,14 @@ test('parses full value', () => {
           "name": "green",
           "type": "named",
         },
+        "offset": 12,
         "value": "✓",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 17,
         "value": " ",
       },
       {
@@ -45,12 +48,14 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 24,
         "value": "src/",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 32,
         "value": "index",
       },
       {
@@ -59,12 +64,14 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 43,
         "value": ".test.ts (1)",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 59,
         "value": "
 
       ",
@@ -75,12 +82,14 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 69,
         "value": " Test Files ",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 85,
         "value": " ",
       },
       {
@@ -92,18 +101,21 @@ test('parses full value', () => {
           "name": "green",
           "type": "named",
         },
+        "offset": 95,
         "value": "1 passed",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 110,
         "value": " (1)",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 118,
         "value": "
       ",
       },
@@ -113,12 +125,14 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 127,
         "value": "      Tests ",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 143,
         "value": " ",
       },
       {
@@ -130,18 +144,21 @@ test('parses full value', () => {
           "name": "green",
           "type": "named",
         },
+        "offset": 153,
         "value": "1 passed",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 168,
         "value": " (1)",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 176,
         "value": "
       ",
       },
@@ -151,12 +168,14 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 185,
         "value": "   Start at ",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 201,
         "value": " 23:32:41
       ",
       },
@@ -166,12 +185,14 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 219,
         "value": "   Duration ",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 235,
         "value": " 11ms
 
       ",
@@ -185,6 +206,7 @@ test('parses full value', () => {
           "bold",
         },
         "foreground": null,
+        "offset": 256,
         "value": " PASS ",
       },
       {
@@ -194,12 +216,14 @@ test('parses full value', () => {
           "name": "green",
           "type": "named",
         },
+        "offset": 269,
         "value": " Waiting for file changes...",
       },
       {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 301,
         "value": "
              ",
       },
@@ -209,6 +233,7 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 317,
         "value": "press ",
       },
       {
@@ -217,6 +242,7 @@ test('parses full value', () => {
           "bold",
         },
         "foreground": null,
+        "offset": 329,
         "value": "h",
       },
       {
@@ -225,6 +251,7 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 336,
         "value": " to show help, press ",
       },
       {
@@ -233,6 +260,7 @@ test('parses full value', () => {
           "bold",
         },
         "foreground": null,
+        "offset": 363,
         "value": "q",
       },
       {
@@ -241,6 +269,7 @@ test('parses full value', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 370,
         "value": " to quit",
       },
     ]
@@ -267,6 +296,7 @@ then clears after that`;
             "name": "green",
             "type": "named",
           },
+          "offset": 7,
           "value": "some green text",
         },
       ],
@@ -278,6 +308,7 @@ then clears after that`;
             "name": "green",
             "type": "named",
           },
+          "offset": 22,
           "value": "which wraps to the next line",
         },
       ],
@@ -286,6 +317,7 @@ then clears after that`;
           "background": null,
           "decorations": Set {},
           "foreground": null,
+          "offset": 54,
           "value": "then clears after that",
         },
       ],
@@ -323,6 +355,7 @@ test('colors', () => {
           "type": "named",
         },
         "foregroundValue": "#000000",
+        "offset": 7,
         "value": "Black",
       },
       {
@@ -334,6 +367,7 @@ test('colors', () => {
           "type": "named",
         },
         "foregroundValue": "#eeeeee",
+        "offset": 19,
         "value": "White",
       },
       {
@@ -345,6 +379,7 @@ test('colors', () => {
           "type": "named",
         },
         "foregroundValue": "#555555",
+        "offset": 31,
         "value": "Bright Black",
       },
       {
@@ -356,6 +391,7 @@ test('colors', () => {
           "type": "named",
         },
         "foregroundValue": "#ffffff",
+        "offset": 50,
         "value": "Bright White",
       },
       {
@@ -367,6 +403,7 @@ test('colors', () => {
           "type": "named",
         },
         "foregroundValue": "#00bb00",
+        "offset": 69,
         "value": "Green",
       },
       {
@@ -382,6 +419,7 @@ test('colors', () => {
           "type": "rgb",
         },
         "foregroundValue": "#1fdea2",
+        "offset": 94,
         "value": "Pastel Green",
       },
       {
@@ -393,6 +431,7 @@ test('colors', () => {
           "type": "table",
         },
         "foregroundValue": "#5fffff",
+        "offset": 118,
         "value": "Table Cyan
     ",
       },
@@ -405,6 +444,7 @@ test('colors', () => {
         "decorations": Set {},
         "foreground": null,
         "foregroundValue": null,
+        "offset": 136,
         "value": "Black",
       },
       {
@@ -416,6 +456,7 @@ test('colors', () => {
         "decorations": Set {},
         "foreground": null,
         "foregroundValue": null,
+        "offset": 148,
         "value": "White",
       },
       {
@@ -427,6 +468,7 @@ test('colors', () => {
         "decorations": Set {},
         "foreground": null,
         "foregroundValue": null,
+        "offset": 161,
         "value": "Bright Black",
       },
       {
@@ -438,6 +480,7 @@ test('colors', () => {
         "decorations": Set {},
         "foreground": null,
         "foregroundValue": null,
+        "offset": 181,
         "value": "Bright White",
       },
       {
@@ -449,6 +492,7 @@ test('colors', () => {
         "decorations": Set {},
         "foreground": null,
         "foregroundValue": null,
+        "offset": 200,
         "value": "Green",
       },
       {
@@ -464,6 +508,7 @@ test('colors', () => {
         "decorations": Set {},
         "foreground": null,
         "foregroundValue": null,
+        "offset": 225,
         "value": "Pastel Green",
       },
       {
@@ -475,6 +520,7 @@ test('colors', () => {
         "decorations": Set {},
         "foreground": null,
         "foregroundValue": null,
+        "offset": 249,
         "value": "Table Cyan
     ",
       },
@@ -490,6 +536,7 @@ test('colors', () => {
           "type": "named",
         },
         "foregroundValue": "#000000",
+        "offset": 271,
         "value": "Foreground and background",
       },
       {
@@ -501,6 +548,7 @@ test('colors', () => {
         "decorations": Set {},
         "foreground": null,
         "foregroundValue": null,
+        "offset": 301,
         "value": "Reset foreground",
       },
       {
@@ -512,6 +560,7 @@ test('colors', () => {
           "type": "named",
         },
         "foregroundValue": "#ff00ff",
+        "offset": 325,
         "value": "Reset background",
       },
     ]
@@ -534,6 +583,7 @@ test('decorations', () => {
           "bold",
         },
         "foreground": null,
+        "offset": 6,
         "value": "Bold",
       },
       {
@@ -542,6 +592,7 @@ test('decorations', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 16,
         "value": "Dim",
       },
       {
@@ -550,6 +601,7 @@ test('decorations', () => {
           "italic",
         },
         "foreground": null,
+        "offset": 25,
         "value": "Italic",
       },
       {
@@ -558,6 +610,7 @@ test('decorations', () => {
           "underline",
         },
         "foreground": null,
+        "offset": 37,
         "value": "Underline",
       },
       {
@@ -566,6 +619,7 @@ test('decorations', () => {
           "reverse",
         },
         "foreground": null,
+        "offset": 52,
         "value": "Reverse",
       },
       {
@@ -574,6 +628,7 @@ test('decorations', () => {
           "strikethrough",
         },
         "foreground": null,
+        "offset": 65,
         "value": "Strikethrough
     ",
       },
@@ -588,6 +643,7 @@ test('decorations', () => {
           "strikethrough",
         },
         "foreground": null,
+        "offset": 95,
         "value": "All
     ",
       },
@@ -597,6 +653,7 @@ test('decorations', () => {
           "bold",
         },
         "foreground": null,
+        "offset": 105,
         "value": "Stack 1",
       },
       {
@@ -606,6 +663,7 @@ test('decorations', () => {
           "dim",
         },
         "foreground": null,
+        "offset": 116,
         "value": "Stack 2",
       },
       {
@@ -616,6 +674,7 @@ test('decorations', () => {
           "italic",
         },
         "foreground": null,
+        "offset": 127,
         "value": "Stack 3",
       },
       {
@@ -627,6 +686,7 @@ test('decorations', () => {
           "underline",
         },
         "foreground": null,
+        "offset": 138,
         "value": "Stack 4",
       },
       {
@@ -639,6 +699,7 @@ test('decorations', () => {
           "reverse",
         },
         "foreground": null,
+        "offset": 149,
         "value": "Stack 5",
       },
       {
@@ -652,6 +713,7 @@ test('decorations', () => {
           "strikethrough",
         },
         "foreground": null,
+        "offset": 160,
         "value": "Stack 6
     ",
       },
@@ -662,6 +724,7 @@ test('decorations', () => {
           "italic",
         },
         "foreground": null,
+        "offset": 176,
         "value": "Bold on",
       },
       {
@@ -670,6 +733,7 @@ test('decorations', () => {
           "italic",
         },
         "foreground": null,
+        "offset": 188,
         "value": "Bold off",
       },
       {
@@ -679,6 +743,7 @@ test('decorations', () => {
           "reverse",
         },
         "foreground": null,
+        "offset": 200,
         "value": "Reverse on",
       },
       {
@@ -687,6 +752,7 @@ test('decorations', () => {
           "italic",
         },
         "foreground": null,
+        "offset": 215,
         "value": "Reverse off",
       },
     ]
@@ -716,6 +782,7 @@ test('edge cases', () => {
           "name": "green",
           "type": "named",
         },
+        "offset": 18,
         "value": "Stacked commands
     ",
       },
@@ -726,6 +793,7 @@ test('edge cases', () => {
         },
         "decorations": Set {},
         "foreground": null,
+        "offset": 42,
         "value": "Reset at end of sequence
     ",
       },
@@ -733,6 +801,7 @@ test('edge cases', () => {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 74,
         "value": "Missing color mode argument
     ",
       },
@@ -740,6 +809,7 @@ test('edge cases', () => {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 118,
         "value": "Missing color argument
     ",
       },
@@ -747,7 +817,46 @@ test('edge cases', () => {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 150,
         "value": "Missing color argument",
+      },
+    ]
+  `);
+});
+
+test('multi-chunk', () => {
+  const value1 = `[0;30mBlack[0;37m`;
+  const value2 = `White`;
+
+  const parser = createAnsiSequenceParser();
+  const tokens1 = parser.parse(value1);
+  const tokens2 = parser.parse(value2);
+
+  expect(tokens1).toMatchInlineSnapshot(`
+    [
+      {
+        "background": null,
+        "decorations": Set {},
+        "foreground": {
+          "name": "black",
+          "type": "named",
+        },
+        "offset": 7,
+        "value": "Black",
+      },
+    ]
+  `);
+  expect(tokens2).toMatchInlineSnapshot(`
+    [
+      {
+        "background": null,
+        "decorations": Set {},
+        "foreground": {
+          "name": "white",
+          "type": "named",
+        },
+        "offset": 19,
+        "value": "White",
       },
     ]
   `);
@@ -761,6 +870,7 @@ test('unclosed sequences', () => {
         "background": null,
         "decorations": Set {},
         "foreground": null,
+        "offset": 0,
         "value": "28s",
       },
       {
@@ -769,6 +879,7 @@ test('unclosed sequences', () => {
           "underline",
         },
         "foreground": null,
+        "offset": 16,
         "value": "[?2004h",
       },
     ]

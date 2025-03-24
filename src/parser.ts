@@ -2,10 +2,16 @@ import { Color, namedColors } from './colors';
 import { DecorationType, decorations } from './decorations';
 
 export interface ParseToken {
+  /** The text content of the token. */
   value: string;
+  /** The foreground color */
   foreground: Color | null;
+  /** The background color. */
   background: Color | null;
+  /** A Set of the applied decorations. */
   decorations: Set<DecorationType>;
+  /** Offset from the beginning of the input value. */
+  offset: number;
 }
 
 function findSequence(value: string, position: number) {
@@ -153,6 +159,7 @@ export function createAnsiSequenceParser() {
   let foreground: Color | null = null;
   let background: Color | null = null;
   let decorations: Set<DecorationType> = new Set();
+  let chunkOffset = 0;
 
   return {
     parse(value: string) {
@@ -172,6 +179,7 @@ export function createAnsiSequenceParser() {
             foreground,
             background,
             decorations: new Set(decorations),
+            offset: chunkOffset + position
           });
         }
 
@@ -207,6 +215,8 @@ export function createAnsiSequenceParser() {
 
         position = findResult.position;
       } while (position < value.length);
+
+      chunkOffset += value.length;
 
       return tokens;
     },

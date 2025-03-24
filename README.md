@@ -24,6 +24,8 @@ interface ParseToken {
   background: Color | null;
   // A Set of the applied decorations
   decorations: Set<DecorationType>;
+  // Offset from the beginning of the input value
+  offset: number;
 }
 ```
 
