@@ -8,20 +8,22 @@ export interface ParseToken {
   decorations: Set<DecorationType>;
 }
 
-function findSequence(value: string, position: number) {
-  const nextEscape = value.indexOf('\u001b', position);
+// ECMA-48 CSI
+const CSI_SEQUENCE = /\x1B\[([0-?]*)([ -/]*)([@-~])/g;
 
-  if (nextEscape !== -1) {
-    if (value[nextEscape + 1] === '[') {
-      const nextClose = value.indexOf('m', nextEscape);
-      if (nextClose !== -1) {
-        return {
-          sequence: value.substring(nextEscape + 2, nextClose).split(';'),
-          startPosition: nextEscape,
-          position: nextClose + 1,
-        };
-      }
-    }
+function findSequence(value: string, position: number) {
+  CSI_SEQUENCE.lastIndex = position;
+  const match = CSI_SEQUENCE.exec(value);
+  if (match) {
+    const [, parameters, intermediates, final] = match;
+    // only plain SGR sequences affect styling: private (e.g. ESC [ > 4 ; 1 m),
+    // malformed (e.g. ESC [ 3 1 ? m), and other sequences are consumed without effect
+    const isSgr = final === 'm' && !intermediates && !/[<=>?]/.test(parameters);
+    return {
+      sequence: isSgr ? parameters.split(';') : [],
+      startPosition: match.index,
+      position: match.index + match[0].length,
+    };
   }
   return {
     position: value.length,

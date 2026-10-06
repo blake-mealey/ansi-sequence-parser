@@ -763,14 +763,74 @@ test('unclosed sequences', () => {
         "foreground": null,
         "value": "28s",
       },
-      {
-        "background": null,
-        "decorations": Set {
-          "underline",
-        },
-        "foreground": null,
-        "value": "[?2004h",
-      },
     ]
   `);
+});
+
+test('non-SGR sequences', () => {
+  const tokens = parseAnsiSequences(
+    '\u001b[2K\u001b[1Gone\u001b[1m two\u001b[4B\u001b[?25l three\u001b[0m four\u001b[?2004h'
+  );
+  expect(tokens).toEqual([
+    {
+      value: 'one',
+      foreground: null,
+      background: null,
+      decorations: new Set(),
+    },
+    {
+      value: ' two',
+      foreground: null,
+      background: null,
+      decorations: new Set(['bold']),
+    },
+    {
+      value: ' three',
+      foreground: null,
+      background: null,
+      decorations: new Set(['bold']),
+    },
+    {
+      value: ' four',
+      foreground: null,
+      background: null,
+      decorations: new Set(),
+    },
+  ]);
+});
+
+test('non-SGR sequence does not consume text up to the next m', () => {
+  const tokens = parseAnsiSequences('\u001b[K hello mom');
+  expect(tokens).toEqual([
+    {
+      value: ' hello mom',
+      foreground: null,
+      background: null,
+      decorations: new Set(),
+    },
+  ]);
+});
+
+test.each([
+  ['private SGR (modifyOtherKeys)', '\u001b[>4;1m'],
+  ['private marker after parameters', '\u001b[31?m'],
+  ['intermediate byte (cursor style)', '\u001b[2 q'],
+  ['final byte @ (insert characters)', '\u001b[3@'],
+  ['final byte ~ (bracketed paste)', '\u001b[200~'],
+])('consumes %s without effect', (_, sequence) => {
+  const tokens = parseAnsiSequences(`one${sequence}two`);
+  expect(tokens).toEqual([
+    {
+      value: 'one',
+      foreground: null,
+      background: null,
+      decorations: new Set(),
+    },
+    {
+      value: 'two',
+      foreground: null,
+      background: null,
+      decorations: new Set(),
+    },
+  ]);
 });
